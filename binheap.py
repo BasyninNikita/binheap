@@ -6,3 +6,6 @@ class Heap:
 
 h = Heap()
 h.test()
+
+
+print('a')
