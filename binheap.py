@@ -1,3 +1,55 @@
+import sys
+
+
+def get_command(binheap):
+    for line in sys.stdin:
+        if 'set' in line and line.split()[0] == 'set':
+            if len(line.replace('set', '').strip().split(' ')) == 2:
+                success = binheap.set(int(line.split()[1]), line.split()[2])
+                if not success:
+                    print('error')
+            else:
+                print('error')
+        elif 'add' in line and line.split()[0] == 'add':
+            if len(line.replace('add', '').strip().split(' ')) == 2:  # maybe isdigit
+                success = binheap.add(int(line.split()[1]), line.split()[2])
+                if not success:
+                    print('error')
+            else:
+                print('error')
+        elif 'search' in line and line.split()[0] == 'search':
+            if len(line.replace('search', '').strip().split(' ')) == 1:
+                print(stree.search(int(line.split()[1])))
+            else:
+                print('error')
+        elif 'print' in line:
+            if line.replace("print", '') != '\n':
+                print('error')
+            else:
+                print(stree.print(), end='')
+        elif 'delete' in line and line.split()[0] == 'delete':
+            if len(line.replace('delete', '').strip().split(' ')) == 1:
+                success = stree.delete(int(line.split()[1]))
+                if not success:
+                    print('error')
+            else:
+                print('error')
+        elif 'min' in line:
+            if line.replace("min", '') != '\n':
+                print('error')
+            else:
+                print(stree.findMin())
+        elif 'max' in line:
+            if line.replace("max", '') != '\n':
+                print('error')
+            else:
+                print(stree.findMax())
+        elif line == '\n':
+            continue
+        else:
+            print('error')
+
+
 class Node:
     def __init__(self, key, value, ):  # index):
         self.key = key
@@ -41,24 +93,45 @@ class Heap:
             return False
 
     def search(self, key):
-        return self.elements[self.idx.get(key)].key, self.elements[self.idx.get(key)].value if self.idx.get(key) else None, None
-
+        return self.elements[self.idx.get(key)].key, self.idx.get(key), self.elements[self.idx.get(key)].value if self.idx.get(
+            key) else None, None, None
+        # a = search(11)
+        # if a[0] is None:
+        #     print('sasi')
+        # else:
+        #     print(a[0]+ ' ' + a[1] + ' ' + a[2])
     def min(self):
-        return 'error' if len(self.elements) == 0 else (str(self.elements[0].key) + '0' + self.elements[0].value)
+        return None, None, None if len(self.elements) == 0 else self.elements[0].key, 0, self.elements[0].value
         # return self.elements[0]
         # eto bred
 
     def max(self):
         if len(self.elements) == 0:
-            return 'error'
+            return None, None, None
         x = max(self.elements)
-        return str(x.key) + ' ' + str(self.indexes.get(x.key)) + ' ' + x.value
+        return x.key, self.indexes.get(x.key), x.value
         # return True
 
-    def delete(self, key):
-        return True
+    def heapify(self, idx):
+        while 2 * idx + 1 < len(self.elements):
+            left_child = 2 * idx + 1
+            right_child = 2 * idx + 2
+            min_child = idx
+            if right_child < len(self.elements) and self.elements[right_child] < self.elements[left_child]:
+                min_child = right_child
+            elif right_child < len(self.elements) and self.elements[right_child] > self.elements[left_child]:
+                min_child = left_child
+            else:
+                min_child = left_child
+            if min_child == idx:
+                break
+            self.elements[idx], self.elements[min_child] = self.elements[min_child], self.elements[idx]
+            self.indexes[self.elements[idx].key], self.indexes[self.elements[min_child].key] = \
+                self.indexes[self.elements[min_child].key], self.indexes[self.elements[idx].key]
+            idx = min_child
 
-    def heapify(self):
+    def delete(self, key):
+
         return True
 
     def extract(self):
