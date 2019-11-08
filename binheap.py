@@ -131,19 +131,13 @@ class Heap:
         while 2 * idx + 1 < len(self.elements):
             left_child = 2 * idx + 1
             right_child = 2 * idx + 2
-            #min_child = left_child
-            if right_child<len(self.elements):
-                min_child = left_child if self.elements[left_child].key < self.elements[right_child].key else right_child
-            else:
+            min_child = left_child
+            if left_child < len(self.elements) and self.elements[left_child].key < self.elements[min_child].key:
                 min_child = left_child
+            if right_child < len(self.elements) and self.elements[right_child].key < self.elements[min_child].key:
+                min_child = right_child
             if self.elements[idx].key < self.elements[min_child].key:
                 break
-            # if left_child < len(self.elements) and self.elements[left_child].key < self.elements[min_child].key:
-            #     min_child = left_child
-            # if right_child < len(self.elements) and self.elements[right_child].key < self.elements[min_child].key:
-            #     min_child = right_child
-            # if min_child == idx:
-            #     break
             self.elements[idx], self.elements[min_child] = self.elements[min_child], self.elements[idx]
             self.indexes[self.elements[idx].key], self.indexes[self.elements[min_child].key] = \
                 self.indexes[self.elements[min_child].key], self.indexes[self.elements[idx].key]
@@ -197,12 +191,9 @@ class Heap:
                 printed = 0
             else:
                 s += ' '
-        # k = 2 ** level
         if printed != 0:
             for i in range(((1 << level) - printed)):  # - len(self.elements))):
                 s += '_ '
-        # while printed < 2 ** (int(log2(len(self.elements))) + 1):
-        #     s += ' _'
         return s.rstrip()
 
 
