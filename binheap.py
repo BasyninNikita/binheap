@@ -208,11 +208,3 @@ class Heap:
 
 h = Heap()
 get_command(h)
-# h.add(1, '11')
-# h.add(2, '22')
-# h.set(1, '12')
-# print(h.search(1))
-# print(h.min())
-# #h.delete(1)
-# print(h.search(1))
-# #print(h.extract())
