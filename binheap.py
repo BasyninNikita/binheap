@@ -131,22 +131,19 @@ class Heap:
         while 2 * idx + 1 < len(self.elements):
             left_child = 2 * idx + 1
             right_child = 2 * idx + 2
-            min_child = left_child
-            # if right_child < len(self.elements):
-            #     min_child = right_child if self.elements[right_child].key < self.elements[left_child].key else min_child = left_child
-            # # if right_child < len(self.elements) and self.elements[right_child].key < self.elements[left_child].key:
-            # #     min_child = right_child
-            # # elif right_child < len(self.elements) and self.elements[right_child].key > self.elements[left_child].key:
-            # #     min_child = left_child
-            # # if left_child < len(self.elements) and self.elements[right_child].key > self.elements[left_child].key::
-            # #     min_child = left_child
-
-            if left_child < len(self.elements) and self.elements[left_child].key < self.elements[min_child].key:
+            #min_child = left_child
+            if right_child<len(self.elements):
+                min_child = left_child if self.elements[left_child].key < self.elements[right_child].key else right_child
+            else:
                 min_child = left_child
-            if right_child < len(self.elements) and self.elements[right_child].key < self.elements[min_child].key:
-                min_child = right_child
-            if min_child == idx:
+            if self.elements[idx].key < self.elements[min_child].key:
                 break
+            # if left_child < len(self.elements) and self.elements[left_child].key < self.elements[min_child].key:
+            #     min_child = left_child
+            # if right_child < len(self.elements) and self.elements[right_child].key < self.elements[min_child].key:
+            #     min_child = right_child
+            # if min_child == idx:
+            #     break
             self.elements[idx], self.elements[min_child] = self.elements[min_child], self.elements[idx]
             self.indexes[self.elements[idx].key], self.indexes[self.elements[min_child].key] = \
                 self.indexes[self.elements[min_child].key], self.indexes[self.elements[idx].key]
@@ -173,22 +170,6 @@ class Heap:
         self.indexes.pop(ykey)  # self.indexes.get(ykey))
         return True
 
-
-
-    # def delete(self, key):
-    #     if len(self.elements) == 0 or self.indexes.get(key) is None:
-    #         return False
-    #     idx = self.indexes.pop(key)
-    #     x = self.elements.pop()
-    #     self.elements[idx].key = x.key
-    #     self.elements[idx].value = x.value
-    #     self.indexes[x.key] = idx
-    #     parent_index = (idx-1)//2
-    #     if parent_index >= 0 and self.elements[idx].key < self.elements[parent_index].key:
-    #         self.sift_up(idx)
-    #     else:
-    #         self.heapify(idx)
-    #     return True
     def extract(self):
         if len(self.elements) == 0:
             return None
